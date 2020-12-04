@@ -50,7 +50,7 @@ class SendersLocator implements SendersLocatorInterface
             }
         } else {
             $seen = [];
-    
+
             foreach (HandlersLocator::listTypes($envelope) as $type) {
                 foreach ($this->sendersMap[$type] ?? [] as $senderAlias) {
                     if (!\in_array($senderAlias, $seen, true)) {
