@@ -48,16 +48,18 @@ class SendersLocator implements SendersLocatorInterface
             foreach ($overrideSendersStamp->getSenders() as $senderAlias) {
                 yield from $this->getSenderFromAlias($senderAlias);
             }
-        } else {
-            $seen = [];
 
-            foreach (HandlersLocator::listTypes($envelope) as $type) {
-                foreach ($this->sendersMap[$type] ?? [] as $senderAlias) {
-                    if (!\in_array($senderAlias, $seen, true)) {
-                        $seen[] = $senderAlias;
+            return;
+        }
 
-                        yield from $this->getSenderFromAlias($senderAlias);
-                    }
+        $seen = [];
+
+        foreach (HandlersLocator::listTypes($envelope) as $type) {
+            foreach ($this->sendersMap[$type] ?? [] as $senderAlias) {
+                if (!\in_array($senderAlias, $seen, true)) {
+                    $seen[] = $senderAlias;
+
+                    yield from $this->getSenderFromAlias($senderAlias);
                 }
             }
         }
